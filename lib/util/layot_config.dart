@@ -75,4 +75,19 @@ class LayoutConfig {
   static Color _cardColor = const Color(0xffffff00);
   static Color getCardColor() => _cardColor;
   static setCardColor(Color value) => _cardColor = value;
+
+  /// 主要颜色
+  static Color _prime = const Color.fromARGB(255, 255, 252, 254);
+  static Color getPrimeColor() => _prime;
+  static setPrimeColor(Color value) => _prime = value;
+
+  /// 禁用顏色
+  static Color _disabledColor = const Color.fromARGB(255, 151, 151, 151);
+  static Color getDisabledColor() => _disabledColor;
+  static setDisabledColor(Color value) => _disabledColor = value;
+
+  /// 濺射顏色
+  static Color _splashColor = const Color.fromARGB(186, 81, 168, 250);
+  static Color getSplashColor() => _splashColor;
+  static setSplashColor(Color value) => _splashColor = value;
 }

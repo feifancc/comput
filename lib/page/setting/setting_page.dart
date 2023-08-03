@@ -79,12 +79,40 @@ class _Setting extends State<Setting> {
           'type': "color",
           'getValue': LayoutConfig.getCardColor,
           'setValue': LayoutConfig.setCardColor
-        }
+        },
+        {
+          'label': 'Prime',
+          'type': "color",
+          'getValue': LayoutConfig.getPrimeColor,
+          'setValue': LayoutConfig.setPrimeColor
+        },
+        {
+          'label': 'disabled',
+          'type': "color",
+          'getValue': LayoutConfig.getDisabledColor,
+          'setValue': LayoutConfig.setDisabledColor,
+        },
+        {
+          'label': 'splash',
+          'type': "color",
+          'getValue': LayoutConfig.getSplashColor,
+          'setValue': LayoutConfig.setSplashColor
+        },
       ]
     }
   ];
 
-  Color color = LayoutConfig.getCardColor();
+  void Function(Color cl)? setValueColor;
+  Color? color;
+  void setColor(Color c, void Function(Color cl) cb) {
+    if (mounted) {
+      setState(() {
+        color = c;
+        setValueColor = cb;
+      });
+    }
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -93,14 +121,51 @@ class _Setting extends State<Setting> {
       appBar: AppBar(
         title: const Text('设置'),
       ),
+      onDrawerChanged: (b) {
+        if (!b) {
+          setState(() {
+            color = null;
+            setValueColor = null;
+          });
+        }
+      },
       drawer: Container(
         color: const Color(0xffffffff),
         width: 400,
         child: Center(
-          child: ColorSelector(
-            color: color,
-            height: 300,
-            width: 300,
+          child: Column(
+            children: [
+              ColorSelector(
+                color: color ?? const Color(0xffffffff),
+                height: 300,
+                width: 300,
+                onChanged: (cl) => setState(() => color = cl),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(70, 30, 70, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () =>
+                          _scaffoldKey.currentState?.openEndDrawer(),
+                      icon: const Icon(Icons.cancel),
+                      label: const Text('取消'),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        if (setValueColor != null && color != null) {
+                          setValueColor!(color!);
+                          _scaffoldKey.currentState?.openEndDrawer();
+                        }
+                      },
+                      icon: const Icon(Icons.save),
+                      label: const Text('確定'),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -110,7 +175,11 @@ class _Setting extends State<Setting> {
         child: ListView(
           children: path
               .map(
-                (e) => RowLayout(pathChild: e, scaffoldKey: _scaffoldKey),
+                (e) => RowLayout(
+                  pathChild: e,
+                  scaffoldKey: _scaffoldKey,
+                  setColor: setColor,
+                ),
               )
               .toList(),
         ),

@@ -28,6 +28,7 @@ class OpacitySelector extends CustomPainter {
         ..color = Color.fromRGBO(r, g, b, i / 10);
       canvas.drawRect(
           Offset(i * blockSize.width + i + 1, 0) & blockSize, paint);
+
       if (i / 10 == opacity) {
         var paint = Paint()
           ..isAntiAlias = true

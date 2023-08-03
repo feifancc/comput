@@ -21,9 +21,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: const Color.fromARGB(255, 255, 252, 254),
-        disabledColor: const Color.fromARGB(255, 151, 151, 151),
-        splashColor: const Color.fromARGB(186, 81, 168, 250),
+        primaryColor: LayoutConfig.getPrimeColor(),
+        cardColor: LayoutConfig.getCardColor(),
+        disabledColor: LayoutConfig.getDisabledColor(),
+        splashColor: LayoutConfig.getSplashColor(),
         textTheme: const TextTheme(
             bodySmall: TextStyle(color: Color.fromARGB(255, 151, 151, 151))),
         colorScheme: ColorScheme.fromSeed(

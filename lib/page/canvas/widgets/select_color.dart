@@ -51,29 +51,17 @@ class ColorSelector extends StatefulWidget {
 class _ColorSelector extends State<ColorSelector> {
   _ColorSelector();
 
-  @override
-  void initState() {
-    width = widget.width ?? 400;
-    height = widget.height ?? 400;
-    r = widget.color.red ~/ 16;
-    g = widget.color.green ~/ 16;
-    b = widget.color.blue ~/ 16;
-    opacity = widget.color.opacity;
+  double get width => widget.width ?? 400;
+  double get height => widget.height ?? 400;
+  int get r => widget.color.red ~/ 16 * 16;
+  int get g => widget.color.green ~/ 16 * 16;
+  int get b => widget.color.blue ~/ 16 * 16;
+  double get opacity => double.parse(widget.color.opacity.toStringAsFixed(1));
+  Color get selectColor =>
+      widget.selectColor ?? const Color.fromARGB(255, 250, 205, 4);
 
-    selectColor = widget.selectColor ?? const Color.fromARGB(255, 250, 205, 4);
-    super.initState();
-  }
-
-  late double width;
-  late double height;
-  late int r;
-  late int g;
-  late int b;
-  late double opacity;
-  late Color selectColor;
-
-  void onSelected(SELECTOR selector) {
-    Color color = Color.fromRGBO(r, g, b, opacity);
+  void onSelected(SELECTOR selector, {int? cr, int? cg, int? cb, double? co}) {
+    Color color = Color.fromRGBO(cr ?? r, cg ?? g, cb ?? b, co ?? opacity);
     if (widget.onChanged != null) {
       widget.onChanged!(color);
     }
@@ -150,11 +138,7 @@ class _ColorSelector extends State<ColorSelector> {
                     var x =
                         getCode(currentOffset.dx + boxOffset.dx, fx: OFFSET.w) *
                             16;
-                    setState(() {
-                      r = x.toInt();
-                      g = y.toInt();
-                    });
-                    onSelected(SELECTOR.main);
+                    onSelected(SELECTOR.main, cr: x, cg: y);
                   },
                   child: CustomPaint(
                     size: mainSize, //指定画布大小
@@ -186,10 +170,7 @@ class _ColorSelector extends State<ColorSelector> {
                     var y =
                         getCode(currentOffset.dy + boxOffset.dy, fx: OFFSET.h) *
                             16;
-                    setState(() {
-                      b = y.toInt();
-                    });
-                    onSelected(SELECTOR.secondary);
+                    onSelected(SELECTOR.secondary, cb: y);
                   },
                   child: CustomPaint(
                     key: secondaryCanvasKey,
@@ -229,10 +210,7 @@ class _ColorSelector extends State<ColorSelector> {
                     var currentOffset = e.globalPosition;
                     var opa =
                         getCode(currentOffset.dx + boxOffset.dx, fx: OFFSET.w);
-                    setState(() {
-                      opacity = (opa / 10).toDouble();
-                    });
-                    onSelected(SELECTOR.opacity);
+                    onSelected(SELECTOR.opacity, co: (opa.toInt() / 10));
                   },
                   child: CustomPaint(
                     size: opacitySize,

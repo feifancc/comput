@@ -6,10 +6,12 @@ class RowLayout extends StatelessWidget {
     super.key,
     required this.pathChild,
     required this.scaffoldKey,
+    required this.setColor,
   });
 
   final Map<String, dynamic> pathChild;
   GlobalKey<ScaffoldState> scaffoldKey;
+  void Function(Color c, void Function(Color cl)) setColor;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class RowLayout extends StatelessWidget {
                     child: GestureDetector(
                       onTapUp: (d) {
                         scaffoldKey.currentState?.openDrawer();
+                        setColor(child['getValue'](), child['setValue']);
                       },
                       child: LayoutColor(
                           label: "${++index}.${child['label']}",
