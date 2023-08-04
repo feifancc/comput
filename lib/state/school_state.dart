@@ -7,8 +7,8 @@ class SchoolState extends ChangeNotifier {
   static const int HORIZONTAL = 1;
   static const int VERTICAL = 0;
 
-  late int direction = 0;
-  late double layoutWidth;
+  int direction = 0;
+  double layoutWidth = 300;
 
   void setLayoutWidth({required double width}) {
     layoutWidth = width;

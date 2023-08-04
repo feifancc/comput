@@ -1,9 +1,9 @@
-// ignore_for_file: must_be_immutable, library_prefixes
 import 'package:comput/page/message/message_page.dart';
 import 'package:comput/page/setting/setting_page.dart';
+import 'package:comput/state/layout_state.dart';
 import 'package:comput/state/school_state.dart';
-import 'package:comput/util/layot_config.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'page/canvas/index_page.dart';
 import 'page/index/index_page.dart';
@@ -11,20 +11,26 @@ import 'page/native/native_page.dart';
 import 'page/school/school_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => LayoutConfigState(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    LayoutConfigState layoutConfigState = context.watch<LayoutConfigState>();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: LayoutConfig.getPrimeColor(),
-        cardColor: LayoutConfig.getCardColor(),
-        disabledColor: LayoutConfig.getDisabledColor(),
-        splashColor: LayoutConfig.getSplashColor(),
+        primaryColor: layoutConfigState.getPrimeColor(),
+        cardColor: layoutConfigState.getCardColor(),
+        disabledColor: layoutConfigState.getDisabledColor(),
+        splashColor: layoutConfigState.getSplashColor(),
         textTheme: const TextTheme(
             bodySmall: TextStyle(color: Color.fromARGB(255, 151, 151, 151))),
         colorScheme: ColorScheme.fromSeed(
@@ -84,10 +90,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    LayoutConfigState layoutConfigState = context.watch<LayoutConfigState>();
+
     return LayoutBuilder(
       builder: (context1, constraints) {
-        schoolState.setLayoutWidth(width: constraints.maxWidth);
-        return schoolState.direction == SchoolState.VERTICAL
+        layoutConfigState.setLayoutWidth(width: constraints.maxWidth);
+        return layoutConfigState.direction == SchoolState.VERTICAL
             ? Scaffold(
                 body: Center(
                   child: pageList[_selectedIndex]['Com'],
@@ -103,8 +111,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     SafeArea(
                       child: NavigationRail(
                         extended: constraints.maxWidth >=
-                            LayoutConfig.getCriticalPoint(),
-                        minExtendedWidth: LayoutConfig.getMinExtendeWidth(),
+                            layoutConfigState.getCriticalPoint(),
+                        minExtendedWidth:
+                            layoutConfigState.getMinExtendeWidth(),
                         destinations: pageList
                             .map<NavigationRailDestination>((e) =>
                                 NavigationRailDestination(
@@ -126,14 +135,15 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class BottomNavigat extends StatefulWidget {
-  int index = 0;
-  void Function(int) onChange = (int e) {};
-  List<Map<String, dynamic>> pageList;
-  BottomNavigat(
-      {super.key,
-      required this.index,
-      required this.onChange,
-      required this.pageList});
+  final int index;
+  final void Function(int) onChange;
+  final List<Map<String, dynamic>> pageList;
+  const BottomNavigat({
+    super.key,
+    required this.index,
+    required this.onChange,
+    required this.pageList,
+  });
 
   @override
   State<BottomNavigat> createState() => _BottomNavigatState();

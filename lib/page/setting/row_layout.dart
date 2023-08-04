@@ -2,7 +2,7 @@ import 'package:comput/page/setting/xxx/all.dart';
 import 'package:flutter/material.dart';
 
 class RowLayout extends StatelessWidget {
-  RowLayout({
+  const RowLayout({
     super.key,
     required this.pathChild,
     required this.scaffoldKey,
@@ -10,8 +10,8 @@ class RowLayout extends StatelessWidget {
   });
 
   final Map<String, dynamic> pathChild;
-  GlobalKey<ScaffoldState> scaffoldKey;
-  void Function(Color c, void Function(Color cl)) setColor;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final void Function(Color c, void Function(Color cl)) setColor;
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +36,12 @@ class RowLayout extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.only(left: 10),
                     child: LayoutInput(
-                        label: "${++index}.${child['label']}",
-                        getValue: child['getValue'],
-                        setValue: child['setValue'],
-                        helpText: child['helpText']),
+                      label: "${++index}.${child['label']}",
+                      getValue: child['getValue'],
+                      setValue: child['setValue'],
+                      helpText: child['helpText'],
+                      controller: child['controller'],
+                    ),
                   ),
                 );
               case "color":
@@ -54,10 +56,11 @@ class RowLayout extends StatelessWidget {
                         setColor(child['getValue'](), child['setValue']);
                       },
                       child: LayoutColor(
-                          label: "${++index}.${child['label']}",
-                          getValue: child['getValue'],
-                          setValue: child['setValue'],
-                          helpText: child['helpText']),
+                        label: "${++index}.${child['label']}",
+                        getValue: child['getValue'],
+                        setValue: child['setValue'],
+                        helpText: child['helpText'],
+                      ),
                     ),
                   ),
                 );

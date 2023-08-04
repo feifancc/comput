@@ -39,6 +39,7 @@ dependencies:
   json_annotation: ^4.8.1
   socket_io_client: ^2.0.2
   web_socket_channel: ^2.4.0
+  provider:
 
 dev_dependencies:
   build_runner:

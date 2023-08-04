@@ -7,28 +7,28 @@ class LayoutInput extends StatelessWidget {
   final Function() getValue;
   final String label;
   final String? helpText;
-  LayoutInput({
+  final TextEditingController controller;
+  const LayoutInput({
     super.key,
     required this.setValue,
     required this.getValue,
     required this.label,
+    required this.controller,
     this.helpText,
   });
 
-  TextEditingController contr = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    contr.text = "${getValue()}";
-
     return TextField(
       decoration: InputDecoration(
         label: Text(label),
         hintText: helpText,
         border: InputBorder.none,
       ),
-      controller: contr,
-      onChanged: setValue,
+      controller: controller,
+      onChanged: (val) {
+        setValue(val);
+      },
     );
   }
 }

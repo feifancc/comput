@@ -1,7 +1,8 @@
 import 'package:comput/page/canvas/widgets/select_color.dart';
 import 'package:comput/page/setting/row_layout.dart';
-import 'package:comput/util/layot_config.dart';
+import 'package:comput/state/layout_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -11,97 +12,6 @@ class Setting extends StatefulWidget {
 }
 
 class _Setting extends State<Setting> {
-  List<Map<String, dynamic>> path = [
-    {
-      "title": '布局',
-      'children': [
-        {
-          "label": "横向/纵向切换布局临界点",
-          "type": 'input',
-          "getValue": LayoutConfig.getVhPoint,
-          "setValue": LayoutConfig.setVhPoint,
-          "helpText": "整数,像素,默认750"
-        },
-        {
-          "label": "展开菜单临界点",
-          "type": 'input',
-          "getValue": LayoutConfig.getCriticalPoint,
-          "setValue": LayoutConfig.setCriticalPoint,
-          "helpText": "整数,像素,默认900"
-        },
-        {
-          "label": "菜单宽度",
-          "type": 'input',
-          "getValue": LayoutConfig.getMinExtendeWidth,
-          "setValue": LayoutConfig.setMinExtendeWidth,
-          "helpText": "浮点数,像素,最大256,默认150"
-        },
-      ]
-    },
-    {
-      'title': '计算',
-      'children': [
-        {
-          "label": "设置1/1布局",
-          "type": 'input',
-          "getValue": LayoutConfig.getComputLayoutWidth11,
-          "setValue": LayoutConfig.setComputLayoutWidth11,
-          "helpText": "浮点数,像素,默认600"
-        },
-        {
-          "label": "设置1/2布局",
-          "type": 'input',
-          "getValue": LayoutConfig.getComputLayoutWidth12,
-          "setValue": LayoutConfig.setComputLayoutWidth12,
-          "helpText": "浮点数,像素,默认1100"
-        },
-        {
-          "label": "设置1/3布局",
-          "type": 'input',
-          "getValue": LayoutConfig.getComputLayoutWidth13,
-          "setValue": LayoutConfig.setComputLayoutWidth13,
-          "helpText": "浮点数,像素,默认1500"
-        },
-        {
-          "label": "设置1/4布局",
-          "type": 'input',
-          "getValue": LayoutConfig.getComputLayoutWidth14,
-          "setValue": LayoutConfig.setComputLayoutWidth14,
-          "helpText": "浮点数,像素,默认1800"
-        },
-      ]
-    },
-    {
-      'title': "颜色",
-      "children": [
-        {
-          'label': 'Card',
-          'type': "color",
-          'getValue': LayoutConfig.getCardColor,
-          'setValue': LayoutConfig.setCardColor
-        },
-        {
-          'label': 'Prime',
-          'type': "color",
-          'getValue': LayoutConfig.getPrimeColor,
-          'setValue': LayoutConfig.setPrimeColor
-        },
-        {
-          'label': 'disabled',
-          'type': "color",
-          'getValue': LayoutConfig.getDisabledColor,
-          'setValue': LayoutConfig.setDisabledColor,
-        },
-        {
-          'label': 'splash',
-          'type': "color",
-          'getValue': LayoutConfig.getSplashColor,
-          'setValue': LayoutConfig.setSplashColor
-        },
-      ]
-    }
-  ];
-
   void Function(Color cl)? setValueColor;
   Color? color;
   void setColor(Color c, void Function(Color cl) cb) {
@@ -114,8 +24,11 @@ class _Setting extends State<Setting> {
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Map<String, dynamic>>? path;
   @override
   Widget build(BuildContext context) {
+    LayoutConfigState layoutConfigState = context.watch<LayoutConfigState>();
+    path ??= layoutConfigState.getPath();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -173,7 +86,7 @@ class _Setting extends State<Setting> {
       body: Container(
         margin: const EdgeInsets.all(20),
         child: ListView(
-          children: path
+          children: path!
               .map(
                 (e) => RowLayout(
                   pathChild: e,

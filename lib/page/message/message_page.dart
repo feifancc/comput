@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:comput/page/message/http/index.dart';
 import 'package:comput/page/message/http/user_info.dart';
+import 'package:comput/state/layout_state.dart';
 import 'package:comput/state/user_state.dart';
 import 'package:flutter/material.dart';
 
 import 'package:comput/state/school_state.dart';
+import 'package:provider/provider.dart';
 import 'http/list_data.dart';
 import 'message_layout.dart';
 
@@ -66,8 +68,8 @@ class _MessagePage extends State<MessagePage> {
     renderListData();
   }
 
-  renderPage() {
-    switch (schoolState.direction) {
+  renderPage(LayoutConfigState layoutState) {
+    switch (layoutState.direction) {
       case SchoolState.HORIZONTAL:
         return HorizontalMessageLayout(
           renderListData: renderListData,
@@ -132,8 +134,12 @@ class _MessagePage extends State<MessagePage> {
 
   @override
   Widget build(BuildContext context) {
+    LayoutConfigState layoutConfigState = context.watch<LayoutConfigState>();
+
     return Container(
-      child: isLogin ? renderPage() : LoginPage(renderLogin: renderLogin),
+      child: isLogin
+          ? renderPage(layoutConfigState)
+          : LoginPage(renderLogin: renderLogin),
     );
   }
 }
