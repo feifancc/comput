@@ -28,6 +28,7 @@ class LayoutConfigState extends ChangeNotifier {
   List<Map<String, dynamic>> getPath() => [
         {
           "title": '布局',
+          'width': 300,
           'children': [
             {
               "label": "横向/纵向切换布局临界点",
@@ -59,6 +60,7 @@ class LayoutConfigState extends ChangeNotifier {
         },
         {
           'title': '计算',
+          'width': 150,
           'children': [
             {
               "label": "设置1/1布局",
@@ -100,6 +102,7 @@ class LayoutConfigState extends ChangeNotifier {
         },
         {
           'title': "颜色",
+          'width': 100,
           "children": [
             {
               'label': 'Card',

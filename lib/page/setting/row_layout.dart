@@ -28,10 +28,13 @@ class RowLayout extends StatelessWidget {
           direction: Axis.horizontal,
           alignment: WrapAlignment.spaceBetween,
           children: children.map((child) {
+            final double width = pathChild['width'] != null
+                ? pathChild['width'].toDouble()
+                : 150;
             switch (child['type']) {
               case "input":
                 return Container(
-                  width: 300,
+                  width: width,
                   margin: const EdgeInsets.only(left: 20),
                   child: Container(
                     margin: const EdgeInsets.only(left: 10),
@@ -46,7 +49,7 @@ class RowLayout extends StatelessWidget {
                 );
               case "color":
                 return Container(
-                  width: 300,
+                  width: width,
                   margin: const EdgeInsets.only(left: 20),
                   child: Container(
                     margin: const EdgeInsets.only(left: 10),
