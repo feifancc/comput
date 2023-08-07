@@ -267,7 +267,7 @@ class _DetailMessage extends State<DetailMessage> {
                                     : null,
                                 child: Card(
                                   color: isOneself
-                                      ? Theme.of(context).splashColor
+                                      ? Theme.of(context).primaryColor
                                       : Theme.of(context).canvasColor,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -275,7 +275,7 @@ class _DetailMessage extends State<DetailMessage> {
                                       e.content,
                                       style: TextStyle(
                                         color: isOneself
-                                            ? Theme.of(context).cardColor
+                                            ? const Color(0xffffffff)
                                             : const Color.fromARGB(
                                                 255, 0, 0, 0),
                                       ),
@@ -293,8 +293,8 @@ class _DetailMessage extends State<DetailMessage> {
                                 padding: const EdgeInsets.fromLTRB(6, 2, 6, 2),
                                 child: Text(
                                   "${isOneself ? '你' : e.userName}撤回了一条消息",
-                                  style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
+                                  style: const TextStyle(
+                                    color: Color(0xffffffff),
                                     fontSize: 10,
                                   ),
                                 ),

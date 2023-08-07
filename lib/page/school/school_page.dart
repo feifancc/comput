@@ -262,7 +262,7 @@ class _SchoolState extends State<School> {
       child: ListView(
         children: [
           Card(
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).cardColor,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

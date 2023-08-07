@@ -107,6 +107,7 @@ class _IndexPageState extends State<IndexPage> {
                       end: 6,
                       bottom: 6,
                     ),
+                    color: Theme.of(context).cardColor,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(

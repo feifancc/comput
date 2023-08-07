@@ -1,4 +1,5 @@
-import 'package:comput/page/setting/xxx/all.dart';
+import 'package:comput/page/setting/xxx/layout_color.dart';
+import 'package:comput/page/setting/xxx/layout_input.dart';
 import 'package:flutter/material.dart';
 
 class RowLayout extends StatelessWidget {

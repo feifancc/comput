@@ -153,7 +153,7 @@ class _BottomNavigatState extends State<BottomNavigat> {
   @override
   Widget build(context) {
     return BottomNavigationBar(
-      selectedItemColor: Theme.of(context).splashColor,
+      selectedItemColor: Theme.of(context).primaryColor,
       unselectedItemColor: Theme.of(context).disabledColor,
       items: widget.pageList
           .map<BottomNavigationBarItem>((e) =>
