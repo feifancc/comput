@@ -12,6 +12,7 @@ class SecondaryColor extends CustomPainter {
   int r;
   int g;
   int b;
+
   BuildContext context;
   Color selectColor;
 

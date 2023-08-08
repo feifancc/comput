@@ -9,13 +9,16 @@ enum SELECTOR { main, secondary, opacity }
 typedef SelectColor = void Function(Color color);
 
 class ColorSelector extends StatefulWidget {
-  ColorSelector({
+  const ColorSelector({
     super.key,
     this.onMainColorChanged,
     this.onSecondaryColorChanged,
     this.onOpacityColorChanged,
     this.onChanged,
+    this.lineWidth,
+    this.conic,
     this.selectColor,
+    this.animationSpeed,
     required this.color,
     this.height,
     this.width,
@@ -40,16 +43,30 @@ class ColorSelector extends StatefulWidget {
   final double? height;
 
   /// 任意画板选择回调
-  Color color;
+  final Color color;
 
+  /// 颜色选择事件
+  /// @param Color
   final SelectColor? onChanged;
+
+  /// 选中框线条宽度
+  final double? lineWidth;
+
+  /// 主颜色选择器动画线条圆弧值
+  final double? conic;
+
+  /// 主颜色选择器动画速度
+  final int? animationSpeed;
 
   @override
   State<ColorSelector> createState() => _ColorSelector();
 }
 
-class _ColorSelector extends State<ColorSelector> {
+class _ColorSelector extends State<ColorSelector>
+    with SingleTickerProviderStateMixin {
   _ColorSelector();
+
+  late AnimationController _ctrl;
 
   double get width => widget.width ?? 400;
   double get height => widget.height ?? 400;
@@ -84,6 +101,14 @@ class _ColorSelector extends State<ColorSelector> {
     }
   }
 
+  double get lineWidth => widget.lineWidth ?? 2;
+  double get conic => widget.conic ?? .5;
+  int get animationSpeed => widget.animationSpeed ?? 500;
+
+  int? or;
+  int? og;
+  int? ob;
+
   Size get mainSize => Size(width * .8, height * .8);
   Size get secondarySize => Size(blockSize.width, height * .8);
   Size get opacitySize => Size(blockSize.width * 11 + 11, blockSize.height);
@@ -113,6 +138,22 @@ class _ColorSelector extends State<ColorSelector> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+        vsync: this, duration: Duration(milliseconds: animationSpeed))
+      ..addListener(_update);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _ctrl.dispose();
+  }
+
+  void _update() {}
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
@@ -138,10 +179,18 @@ class _ColorSelector extends State<ColorSelector> {
                     var x =
                         getCode(currentOffset.dx + boxOffset.dx, fx: OFFSET.w) *
                             16;
+                    setState(() {
+                      or = r;
+                      og = g;
+                      ob = b;
+                    });
                     onSelected(SELECTOR.main, cr: x, cg: y);
+                    _ctrl.reset();
+                    _ctrl.forward();
                   },
                   child: CustomPaint(
-                    size: mainSize, //指定画布大小
+                    size: mainSize,
+                    // 指定画布大小
                     painter: MainCanvasPaintBackground(
                       r: r,
                       g: g,
@@ -150,13 +199,20 @@ class _ColorSelector extends State<ColorSelector> {
                       context: context,
                       selectColor: selectColor,
                     ),
+                    // 选择颜色
                     foregroundPainter: MainCanvsPaintForeground(
-                        r: r,
-                        g: g,
-                        b: b,
-                        blockSize: blockSize,
-                        context: context,
-                        selectColor: selectColor),
+                      r: r,
+                      g: g,
+                      b: b,
+                      or: or ?? r,
+                      og: og ?? g,
+                      ob: ob ?? b,
+                      lineWidth: lineWidth,
+                      conic: conic,
+                      blockSize: blockSize,
+                      spread: _ctrl,
+                      selectColor: selectColor,
+                    ),
                   ),
                 ),
 

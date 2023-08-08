@@ -101,32 +101,71 @@ class LayoutConfigState extends ChangeNotifier {
           ]
         },
         {
-          'title': "颜色",
+          'title': "主题颜色",
           'width': 100,
           "children": [
             {
-              'label': 'Card',
+              'label': '卡片',
               'type': "color",
               'getValue': getCardColor,
               'setValue': setCardColor
             },
             {
-              'label': 'Prime',
+              'label': '主要',
               'type': "color",
               'getValue': getPrimeColor,
               'setValue': setPrimeColor
             },
             {
-              'label': 'disabled',
+              'label': '禁用',
               'type': "color",
               'getValue': getDisabledColor,
               'setValue': setDisabledColor,
             },
             {
-              'label': 'splash',
+              'label': '溅射',
               'type': "color",
               'getValue': getSplashColor,
               'setValue': setSplashColor
+            },
+          ]
+        },
+        {
+          'title': "颜色选择器设置",
+          'width': 150,
+          "children": [
+            {
+              'label': '选中颜色',
+              'type': "color",
+              'getValue': getColorSelectorSelerctdColor,
+              'setValue': setColorSelectorSelerctdColor
+            },
+            {
+              'label': '线条宽度',
+              'type': "input",
+              "helpText": "浮点数,默认2",
+              "controller": TextEditingController(
+                  text: '${getColorSelectorMainLineWidth()}'),
+              'getValue': getColorSelectorMainLineWidth,
+              'setValue': setColorSelectorMainLineWidth
+            },
+            {
+              'label': '动画圆弧',
+              'type': "input",
+              "helpText": "浮点数,默认0.5",
+              "controller":
+                  TextEditingController(text: '${getColorSelectorMainConic()}'),
+              'getValue': getColorSelectorMainConic,
+              'setValue': setColorSelectorMainConic
+            },
+            {
+              'label': '动画速度',
+              'type': "input",
+              "helpText": "整数,毫秒,默认500",
+              "controller": TextEditingController(
+                  text: '${getColorSelectorAnimationSpeed()}'),
+              'getValue': getColorSelectorAnimationSpeed,
+              'setValue': setColorSelectorAnimationSpeed
             },
           ]
         }
@@ -182,8 +221,12 @@ class LayoutConfigState extends ChangeNotifier {
   setComputLayoutWidth12(String value) {
     RegExp reg = RegExp('^[0-9]{1,3}\$');
     if (reg.hasMatch(value)) {
-      _computLayoutWidth12 = double.parse(value);
-      notifyListeners();
+      try {
+        _computLayoutWidth12 = double.parse(value);
+        notifyListeners();
+      } catch (e) {
+        e;
+      }
     }
   }
 
@@ -193,8 +236,12 @@ class LayoutConfigState extends ChangeNotifier {
   setComputLayoutWidth13(String value) {
     RegExp reg = RegExp('^[0-9]{1,3}\$');
     if (reg.hasMatch(value)) {
-      _computLayoutWidth13 = double.parse(value);
-      notifyListeners();
+      try {
+        _computLayoutWidth13 = double.parse(value);
+        notifyListeners();
+      } catch (e) {
+        e;
+      }
     }
   }
 
@@ -204,13 +251,19 @@ class LayoutConfigState extends ChangeNotifier {
   setComputLayoutWidth14(String value) {
     RegExp reg = RegExp('^[0-9]{1,3}\$');
     if (reg.hasMatch(value)) {
-      _computLayoutWidth14 = double.parse(value);
-      notifyListeners();
+      if (reg.hasMatch(value)) {
+        try {
+          _computLayoutWidth14 = double.parse(value);
+          notifyListeners();
+        } catch (e) {
+          e;
+        }
+      }
     }
   }
 
   /// Card颜色
-  Color _cardColor = const Color(0xffffff00);
+  Color _cardColor = const Color.fromARGB(255, 233, 230, 230);
   Color getCardColor() => _cardColor;
   setCardColor(Color value) {
     _cardColor = value;
@@ -218,7 +271,7 @@ class LayoutConfigState extends ChangeNotifier {
   }
 
   /// 主要颜色
-  Color _primeColor = const Color.fromARGB(255, 255, 252, 254);
+  Color _primeColor = const Color.fromARGB(255, 110, 224, 134);
   Color getPrimeColor() => _primeColor;
   void setPrimeColor(Color value) {
     _primeColor = value;
@@ -239,5 +292,54 @@ class LayoutConfigState extends ChangeNotifier {
   setSplashColor(Color value) {
     _splashColor = value;
     notifyListeners();
+  }
+
+  /// 颜色选择器->主选择器->选中颜色
+  Color _colorSelectorSelerctdColor = const Color.fromARGB(255, 250, 205, 4);
+  Color getColorSelectorSelerctdColor() => _colorSelectorSelerctdColor;
+  setColorSelectorSelerctdColor(Color value) {
+    _colorSelectorSelerctdColor = value;
+    notifyListeners();
+  }
+
+  /// 颜色选择器->主选择器->选中线条宽度
+  double _colorSelectorMainLineWidth = 2;
+  double getColorSelectorMainLineWidth() => _colorSelectorMainLineWidth;
+  setColorSelectorMainLineWidth(String value) {
+    RegExp reg = RegExp('^[0-9.]{1,3}\$');
+    if (reg.hasMatch(value)) {
+      try {
+        _colorSelectorMainLineWidth = double.parse(value);
+        notifyListeners();
+      } catch (e) {
+        e;
+      }
+    }
+  }
+
+  /// 颜色选择器->主选择器->选中动画线条圆弧值
+  double _colorSelectorMainConic = 0.5;
+  double getColorSelectorMainConic() => _colorSelectorMainConic;
+  setColorSelectorMainConic(String value) {
+    RegExp reg = RegExp('^[0-9]{1,3}\$');
+    if (reg.hasMatch(value)) {
+      _colorSelectorMainConic = double.parse(value);
+      notifyListeners();
+    }
+  }
+
+  /// 颜色选择器->主选择器->选中动画速度
+  int _colorSelectorAnimationSpeed = 500;
+  int getColorSelectorAnimationSpeed() => _colorSelectorAnimationSpeed;
+  setColorSelectorAnimationSpeed(String value) {
+    RegExp reg = RegExp('^[0-9]{1,4}\$');
+    if (reg.hasMatch(value)) {
+      try {
+        _colorSelectorAnimationSpeed = int.parse(value);
+        notifyListeners();
+      } catch (e) {
+        e;
+      }
+    }
   }
 }

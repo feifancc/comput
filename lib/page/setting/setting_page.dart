@@ -52,6 +52,11 @@ class _Setting extends State<Setting> {
                 color: color ?? const Color(0xffffffff),
                 height: 300,
                 width: 300,
+                lineWidth: layoutConfigState.getColorSelectorMainLineWidth(),
+                conic: layoutConfigState.getColorSelectorMainConic(),
+                animationSpeed:
+                    layoutConfigState.getColorSelectorAnimationSpeed(),
+                selectColor: layoutConfigState.getColorSelectorSelerctdColor(),
                 onChanged: (cl) => setState(() => color = cl),
               ),
               Padding(
