@@ -42,48 +42,51 @@ class _Setting extends State<Setting> {
           });
         }
       },
-      drawer: Container(
-        color: const Color(0xffffffff),
-        width: 400,
-        child: Center(
-          child: Column(
-            children: [
-              ColorSelector(
-                color: color ?? const Color(0xffffffff),
-                height: 300,
-                width: 300,
-                lineWidth: layoutConfigState.getColorSelectorMainLineWidth(),
-                conic: layoutConfigState.getColorSelectorMainConic(),
-                animationSpeed:
-                    layoutConfigState.getColorSelectorAnimationSpeed(),
-                selectColor: layoutConfigState.getColorSelectorSelerctdColor(),
-                onChanged: (cl) => setState(() => color = cl),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(70, 30, 70, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () =>
-                          _scaffoldKey.currentState?.openEndDrawer(),
-                      icon: const Icon(Icons.cancel),
-                      label: const Text('取消'),
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        if (setValueColor != null && color != null) {
-                          setValueColor!(color!);
-                          _scaffoldKey.currentState?.openEndDrawer();
-                        }
-                      },
-                      icon: const Icon(Icons.save),
-                      label: const Text('確定'),
-                    ),
-                  ],
+      drawer: SafeArea(
+        child: Container(
+          color: const Color(0xffffffff),
+          width: 400,
+          child: Center(
+            child: Column(
+              children: [
+                ColorSelector(
+                  color: color ?? const Color(0xffffffff),
+                  height: 300,
+                  width: 300,
+                  lineWidth: layoutConfigState.getColorSelectorMainLineWidth(),
+                  conic: layoutConfigState.getColorSelectorMainConic(),
+                  animationSpeed:
+                      layoutConfigState.getColorSelectorAnimationSpeed(),
+                  selectColor:
+                      layoutConfigState.getColorSelectorSelerctdColor(),
+                  onChanged: (cl) => setState(() => color = cl),
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(70, 30, 70, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () =>
+                            _scaffoldKey.currentState?.openEndDrawer(),
+                        icon: const Icon(Icons.cancel),
+                        label: const Text('取消'),
+                      ),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          if (setValueColor != null && color != null) {
+                            setValueColor!(color!);
+                            _scaffoldKey.currentState?.openEndDrawer();
+                          }
+                        },
+                        icon: const Icon(Icons.save),
+                        label: const Text('確定'),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

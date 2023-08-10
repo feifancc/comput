@@ -48,6 +48,8 @@ class MainCanvsPaintForeground extends CustomPainter {
   /// 主颜色选择器动画线条圆弧值
   double conic;
 
+  double jie = 0.7;
+
   /// 容器大小
   Size blockSize;
 
@@ -58,9 +60,10 @@ class MainCanvsPaintForeground extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (spread != null && spread?.value != 1) {
-      double y =
+      /// INFO: 动画开始
+      double toY =
           computeOffset(g, of: OFFSET.h) - computeOffset(og!, of: OFFSET.h);
-      double x =
+      double toX =
           computeOffset(r, of: OFFSET.w) - computeOffset(or!, of: OFFSET.w);
 
       /// 上线条
@@ -69,12 +72,24 @@ class MainCanvsPaintForeground extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..color = selectColor;
       var topPath = Path();
-      topPath.moveTo(0, computeOffset(g, of: OFFSET.h));
+      topPath.moveTo(
+          0,
+          spread!.value < jie
+              ? computeOffset(og!, of: OFFSET.h) + toY * spread!.value * 1 / jie
+              : computeOffset(g, of: OFFSET.h));
       topPath.conicTo(
-          computeOffset(or!, of: OFFSET.w) + (x * spread!.value),
-          computeOffset(og!, of: OFFSET.h) + (y * spread!.value),
+          spread!.value < jie
+              ? computeOffset(or!, of: OFFSET.w)
+              : computeOffset(or!, of: OFFSET.w) +
+                  (toX * spread!.value * (spread!.value - jie) * 1 / (1 - jie)),
+          spread!.value < jie
+              ? computeOffset(og!, of: OFFSET.h)
+              : computeOffset(og!, of: OFFSET.h) +
+                  (toY * spread!.value * (spread!.value - jie) * 1 / (1 - jie)),
           size.width,
-          computeOffset(g, of: OFFSET.h),
+          spread!.value < jie
+              ? computeOffset(og!, of: OFFSET.h) + toY * spread!.value * 1 / jie
+              : computeOffset(g, of: OFFSET.h),
           conic);
       canvas.drawPath(topPath, topPaint);
 
@@ -84,11 +99,23 @@ class MainCanvsPaintForeground extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..color = selectColor;
       var leftPath = Path();
-      leftPath.moveTo(computeOffset(r, of: OFFSET.w), 0);
+      leftPath.moveTo(
+          spread!.value < jie
+              ? computeOffset(or!, of: OFFSET.w) + toX * spread!.value * 1 / jie
+              : computeOffset(r, of: OFFSET.w),
+          0);
       leftPath.conicTo(
-          computeOffset(or!, of: OFFSET.w) + (x * spread!.value),
-          computeOffset(og!, of: OFFSET.h) + (y * spread!.value),
-          computeOffset(r, of: OFFSET.w),
+          spread!.value < jie
+              ? computeOffset(or!, of: OFFSET.w)
+              : computeOffset(or!, of: OFFSET.w) +
+                  (toX * spread!.value * (spread!.value - jie) * 1 / (1 - jie)),
+          spread!.value < jie
+              ? computeOffset(og!, of: OFFSET.h)
+              : computeOffset(og!, of: OFFSET.h) +
+                  (toY * spread!.value * (spread!.value - jie) * 1 / (1 - jie)),
+          spread!.value < jie
+              ? computeOffset(or!, of: OFFSET.w) + toX * spread!.value * 1 / jie
+              : computeOffset(r, of: OFFSET.w),
           size.height,
           conic);
       canvas.drawPath(leftPath, leftPaint);
@@ -100,15 +127,35 @@ class MainCanvsPaintForeground extends CustomPainter {
         ..color = selectColor;
       var bottomPath = Path();
       bottomPath.moveTo(
-          0, computeOffset(g, of: OFFSET.h) + blockSize.height + 1);
-      bottomPath.conicTo(
-          computeOffset(or!, of: OFFSET.w) + (x * spread!.value),
-          computeOffset(og!, of: OFFSET.h) +
+          0,
+          (spread!.value < jie
+                  ? computeOffset(og!, of: OFFSET.h) +
+                      toY * spread!.value * 1 / jie
+                  : computeOffset(g, of: OFFSET.h)) +
               blockSize.height +
-              1 +
-              (y * spread!.value),
+              1);
+      bottomPath.conicTo(
+          spread!.value < jie
+              ? computeOffset(or!, of: OFFSET.w)
+              : computeOffset(or!, of: OFFSET.w) +
+                  (toX * spread!.value * (spread!.value - jie) * 1 / (1 - jie)),
+          (spread!.value < jie
+                  ? computeOffset(og!, of: OFFSET.h)
+                  : computeOffset(og!, of: OFFSET.h) +
+                      (toY *
+                          spread!.value *
+                          (spread!.value - jie) *
+                          1 /
+                          (1 - jie))) +
+              blockSize.height +
+              1,
           size.width,
-          computeOffset(g, of: OFFSET.h) + blockSize.height + 1,
+          (spread!.value < jie
+                  ? computeOffset(og!, of: OFFSET.h) +
+                      toY * spread!.value * 1 / jie
+                  : computeOffset(g, of: OFFSET.h)) +
+              blockSize.height +
+              1,
           conic);
       canvas.drawPath(bottomPath, bottomPaint);
 
@@ -118,18 +165,40 @@ class MainCanvsPaintForeground extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..color = selectColor;
       var rightPath = Path();
-      rightPath.moveTo(computeOffset(r, of: OFFSET.w) + blockSize.width + 1, 0);
-      rightPath.conicTo(
-          computeOffset(or!, of: OFFSET.w) +
+      rightPath.moveTo(
+          (spread!.value < jie
+                  ? computeOffset(or!, of: OFFSET.w) +
+                      toX * spread!.value * 1 / jie
+                  : computeOffset(r, of: OFFSET.w)) +
               blockSize.width +
-              1 +
-              (x * spread!.value),
-          computeOffset(og!, of: OFFSET.h) + (y * spread!.value),
-          computeOffset(r, of: OFFSET.w) + blockSize.width + 1,
+              1,
+          0);
+      rightPath.conicTo(
+          (spread!.value < jie
+                  ? computeOffset(or!, of: OFFSET.w)
+                  : computeOffset(or!, of: OFFSET.w) +
+                      (toX *
+                          spread!.value *
+                          (spread!.value - jie) *
+                          1 /
+                          (1 - jie))) +
+              blockSize.width +
+              1,
+          spread!.value < jie
+              ? computeOffset(og!, of: OFFSET.h)
+              : computeOffset(og!, of: OFFSET.h) +
+                  (toY * spread!.value * (spread!.value - jie) * 1 / (1 - jie)),
+          (spread!.value < jie
+                  ? computeOffset(or!, of: OFFSET.w) +
+                      toX * spread!.value * 1 / jie
+                  : computeOffset(r, of: OFFSET.w)) +
+              blockSize.width +
+              1,
           size.height,
           conic);
       canvas.drawPath(rightPath, rightPaint);
     } else {
+      /// INFO: 动画结束
       // 上线条
       var topPaint = Paint()
         ..strokeWidth = lineWidth
