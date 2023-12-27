@@ -12,13 +12,13 @@ class LayoutConfigState extends ChangeNotifier {
     layoutWidth = width;
     if (width <= getVhPoint()) {
       direction = VERTICAL;
-      Timer(Duration(milliseconds: 300), () {
+      Timer(const Duration(milliseconds: 300), () {
         notifyListeners();
       });
     }
     if (width > getVhPoint()) {
       direction = HORIZONTAL;
-      Timer(Duration(milliseconds: 300), () {
+      Timer(const Duration(milliseconds: 300), () {
         notifyListeners();
       });
     }
@@ -168,7 +168,52 @@ class LayoutConfigState extends ChangeNotifier {
               'setValue': setColorSelectorAnimationSpeed
             },
           ]
-        }
+        },
+        {
+          'title': "网格动画设置",
+          'width': 150,
+          "children": [
+            {
+              'label': '线条颜色1',
+              'type': "color",
+              'getValue': getGridAnimationLineColorOne,
+              'setValue': setGridAnimationLineColorOne,
+            },
+            {
+              'label': '线条颜色2',
+              'type': "color",
+              'getValue': getGridAnimationLineColorTwo,
+              'setValue': setGridAnimationLineColorTwo,
+            },
+            {
+              'label': '线条宽度1',
+              'type': "input",
+              "helpText": "浮点数,默认1",
+              "controller":
+                  TextEditingController(text: '${getGridAnimationLineWidth()}'),
+              'getValue': getGridAnimationLineWidth,
+              'setValue': setGridAnimationLineWidth
+            },
+            {
+              'label': '线条宽度2',
+              'type': "input",
+              "helpText": "浮点数,默认1",
+              "controller": TextEditingController(
+                  text: '${getGridAnimationLineWidthTwo()}'),
+              'getValue': getGridAnimationLineWidthTwo,
+              'setValue': setGridAnimationLineWidthTwo
+            },
+            {
+              'label': '点位大小',
+              'type': "input",
+              "helpText": "默认5",
+              "controller": TextEditingController(
+                  text: '${getGridAnimationPointRadius()}'),
+              'getValue': getGridAnimationPointRadius,
+              'setValue': setGridAnimationPointRadius
+            },
+          ]
+        },
       ];
 
   /// 横向菜单展开切换灵界点
@@ -336,6 +381,67 @@ class LayoutConfigState extends ChangeNotifier {
     if (reg.hasMatch(value)) {
       try {
         _colorSelectorAnimationSpeed = int.parse(value);
+        notifyListeners();
+      } catch (e) {
+        e;
+      }
+    }
+  }
+
+  /// 网格动画->线条->颜色1
+  Color _gridAnimationLineColorOne = const Color.fromARGB(255, 62, 199, 28);
+  Color getGridAnimationLineColorOne() => _gridAnimationLineColorOne;
+  setGridAnimationLineColorOne(Color value) {
+    _gridAnimationLineColorOne = value;
+    notifyListeners();
+  }
+
+  /// 网格动画->线条->颜色2
+  Color _gridAnimationLineColorTwo = const Color.fromARGB(255, 216, 110, 110);
+  Color getGridAnimationLineColorTwo() => _gridAnimationLineColorTwo;
+  setGridAnimationLineColorTwo(Color value) {
+    _gridAnimationLineColorTwo = value;
+    notifyListeners();
+  }
+
+  /// 网格动画->线条->宽度1
+  double _gridAnimationLineWidth = 2;
+  double getGridAnimationLineWidth() => _gridAnimationLineWidth;
+  setGridAnimationLineWidth(String value) {
+    RegExp reg = RegExp('^[0-9.]{1,2}\$');
+    if (reg.hasMatch(value)) {
+      try {
+        _gridAnimationLineWidth = double.parse(value);
+        notifyListeners();
+      } catch (e) {
+        e;
+      }
+    }
+  }
+
+  /// 网格动画->线条->宽2
+  double _gridAnimationLineWidthTwo = .1;
+  double getGridAnimationLineWidthTwo() => _gridAnimationLineWidthTwo;
+  setGridAnimationLineWidthTwo(String value) {
+    RegExp reg = RegExp('^[0-9.]{1,2}\$');
+    if (reg.hasMatch(value)) {
+      try {
+        _gridAnimationLineWidthTwo = double.parse(value);
+        notifyListeners();
+      } catch (e) {
+        e;
+      }
+    }
+  }
+
+  /// 网格动画->圆点->半径
+  double _gridAnimationPointRadius = 3;
+  double getGridAnimationPointRadius() => _gridAnimationPointRadius;
+  setGridAnimationPointRadius(String value) {
+    RegExp reg = RegExp('^[0-9.]{1,2}\$');
+    if (reg.hasMatch(value)) {
+      try {
+        _gridAnimationPointRadius = double.parse(value);
         notifyListeners();
       } catch (e) {
         e;

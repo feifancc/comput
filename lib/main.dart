@@ -1,5 +1,6 @@
 import 'package:comput/page/message/message_page.dart';
 import 'package:comput/page/setting/setting_page.dart';
+
 import 'package:comput/state/layout_state.dart';
 import 'package:comput/state/school_state.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,11 @@ import 'page/index/index_page.dart';
 import 'page/native/native_page.dart';
 import 'page/school/school_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Add this your main method.
+  // used to show a webview title bar.
   runApp(
     ChangeNotifierProvider(
       create: (context) => LayoutConfigState(),
@@ -57,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
     {
       "icon": const Icon(Icons.home),
       "label": "Home",
-      "Com": IndexPage(),
+      "Com": const IndexPage(),
     },
     {
       "icon": const Icon(Icons.message),

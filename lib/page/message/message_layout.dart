@@ -18,7 +18,6 @@ class MessageLayout extends StatelessWidget {
   final String active;
   final List<ListData> listData;
   final void Function(String f) onChangeActive;
-  
 
   String getMessageListConten(ListData data) {
     if (User.userInfo?.id != null && data.listMessage.isNotEmpty) {

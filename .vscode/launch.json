@@ -13,13 +13,13 @@
       "name": "comput (profile mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "profile"
+      "flutterMode": "debug"
     },
     {
       "name": "comput (release mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
+      "flutterMode": "debug"
     }
   ]
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class IndexPage extends StatefulWidget {
+  const IndexPage({super.key});
+
   @override
   State<IndexPage> createState() => _IndexPageState();
 }

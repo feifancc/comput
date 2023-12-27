@@ -1,7 +1,7 @@
-import 'package:comput/page/canvas/widgets/SelectColor/paint/main_color_back.dart';
-import 'package:comput/page/canvas/widgets/SelectColor/paint/main_color_fore.dart';
-import 'package:comput/page/canvas/widgets/SelectColor/paint/opacity_color.dart';
-import 'package:comput/page/canvas/widgets/SelectColor/paint/secondary_color.dart';
+import 'package:comput/widgets/SelectColor/paint/main_color_back.dart';
+import 'package:comput/widgets/SelectColor/paint/main_color_fore.dart';
+import 'package:comput/widgets/SelectColor/paint/opacity_color.dart';
+import 'package:comput/widgets/SelectColor/paint/secondary_color.dart';
 import 'package:flutter/material.dart';
 
 enum SELECTOR { main, secondary, opacity }

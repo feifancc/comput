@@ -20,7 +20,10 @@ version: 1.0.0+1
 
 environment:
   sdk: '>=3.1.0-11.0.dev <4.0.0'
-
+  
+linter:
+  rules:
+    avoid_print: false
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -39,6 +42,7 @@ dependencies:
   json_annotation: ^4.8.1
   socket_io_client: ^2.0.2
   web_socket_channel: ^2.4.0
+
   provider:
 
 dev_dependencies:

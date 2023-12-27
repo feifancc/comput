@@ -1,4 +1,4 @@
-import 'package:comput/page/canvas/widgets/select_color.dart';
+import 'package:comput/widgets/SelectColor/select_color.dart';
 import 'package:comput/page/setting/row_layout.dart';
 import 'package:comput/state/layout_state.dart';
 import 'package:flutter/material.dart';
