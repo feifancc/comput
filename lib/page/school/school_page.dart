@@ -6,6 +6,8 @@ import 'package:comput/util/util.dart';
 import 'package:flutter/material.dart';
 
 class School extends StatefulWidget {
+  const School({super.key});
+
   @override
   State<School> createState() => _SchoolState();
 }
