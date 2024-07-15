@@ -1,3 +1,4 @@
+import 'package:comput/page/interaction/interaction_page.dart';
 import 'package:comput/page/message/message_page.dart';
 import 'package:comput/page/setting/setting_page.dart';
 
@@ -69,7 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
       "label": "message",
       "Com": const MessagePage(),
     },
-    {"icon": const Icon(Icons.school), "label": "School", "Com": School()},
+    {
+      "icon": const Icon(Icons.school),
+      "label": "School",
+      "Com": const School()
+    },
     {
       "icon": const Icon(Icons.settings),
       "label": "Settings",
@@ -84,6 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
       "icon": const Icon(Icons.image_aspect_ratio),
       "label": "Canvas",
       "Com": const CustomPaintRoute()
+    },
+    {
+      "icon": const Icon(Icons.interests),
+      "label": "InterAction",
+      "Com": const InterActionPage()
     },
   ];
 
@@ -120,9 +130,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         minExtendedWidth:
                             layoutConfigState.getMinExtendeWidth(),
                         destinations: pageList
-                            .map<NavigationRailDestination>((e) =>
-                                NavigationRailDestination(
-                                    icon: e['icon'], label: Text(e['label'])))
+                            .map<NavigationRailDestination>(
+                              (e) => NavigationRailDestination(
+                                icon: e['icon'],
+                                label: Text(e['label']),
+                              ),
+                            )
                             .toList(),
                         selectedIndex: _selectedIndex,
                         onDestinationSelected: _onItemTapped,

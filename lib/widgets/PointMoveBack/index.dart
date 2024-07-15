@@ -51,14 +51,6 @@ class _PointMoveBack extends State<PointMoveBack>
 
   @override
   Widget build(BuildContext context) {
-    // const paths = [
-    //   Offset(90, 100),
-    //   Offset(170, 100),
-    //   Offset(100, 150),
-    //   Offset(130, 70),
-    //   Offset(160, 150),
-    //   Offset(90, 100),
-    // ];
     LayoutConfigState layoutConfigState = context.watch<LayoutConfigState>();
     return MouseRegion(
       onHover: (e) {
