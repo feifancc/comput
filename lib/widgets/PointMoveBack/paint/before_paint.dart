@@ -23,14 +23,6 @@ class ForeChessPieces extends CustomPainter {
   final double criticalLineLength; // 临界线长度
   final List<PathPoint> points; // 路径点列表
 
-  // 计算两个颜色之间的差异，用于插值计算
-  Color get colorDiff => Color.fromRGBO(
-        color2.red - color1.red,
-        color2.green - color1.green,
-        color2.blue - color1.blue,
-        color2.opacity - color1.opacity,
-      );
-
   late double frame = 0.1; // 帧速率，用于控制动画的更新
 
   // 绘制线条的方法
@@ -45,9 +37,9 @@ class ForeChessPieces extends CustomPainter {
       var opRate = colorRate > 1 / 4 ? 1 : colorRate * 4; // 计算透明度比例
       var width = lineWidth2 + (lineWidth - lineWidth2) * colorRate; // 根据比例计算线宽
       var color = Color.fromRGBO(
-        (color1.red + colorRate * colorDiff.red).round(),
-        (color1.green + colorRate * colorDiff.green).round(),
-        (color1.blue + colorRate * colorDiff.blue).round(),
+        (color1.red + (color2.red - color1.red) * colorRate).round(),
+        (color1.green + (color2.green - color1.green) * colorRate).round(),
+        (color1.blue + (color2.blue - color1.blue) * colorRate).round(),
         color1.opacity + opRate,
       ); // 根据比例计算颜色
       // 初始化画笔对象
